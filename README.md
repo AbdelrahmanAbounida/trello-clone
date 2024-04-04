@@ -2,7 +2,6 @@
 
 ![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=whitelabelColor=000000)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?logo=react&logoColor=%2361DAFB)
-![Tailwind CSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?logo=tailwind-css&logoColor=white)
 ![Prisma ORM](https://img.shields.io/badge/Prisma%20ORM-2D3748?logo=prisma&logoColor=whitelabelColor=2D3748)
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?logo=mongodb&logoColor=white)
 ![NextAuth.js](https://img.shields.io/badge/NextAuth.js-000000?logo=next.js&logoColor=whitelabelColor=000000)

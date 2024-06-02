@@ -1,0 +1,57 @@
+1- install s3 sdk 
+npm install @aws-sdk/client-s3
+
+2- create hook 
+useUploadFile
+
+---------------------------------------------
+import { useState } from 'react';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+
+const useUploadFile = () => {
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [progresses, setProgresses] = useState({});
+  const [isUploading, setIsUploading] = useState(false);
+
+  const uploadFiles = async (files) => {
+    setIsUploading(true);
+    const s3Client = new S3Client({
+      region: process.env.NEXT_PUBLIC_AWS_REGION,
+      credentials: {
+        accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+      },
+    });
+
+    const uploadFile = async (file) => {
+      const params = {
+        Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME,
+        Key: file.name,
+        Body: file,
+        ContentType: file.type,
+      };
+
+      try {
+        const command = new PutObjectCommand(params);
+        await s3Client.send(command);
+        setUploadedFiles((prev) => [...prev, file.name]);
+      } catch (error) {
+        console.error('Error uploading file:', file.name, error);
+      }
+    };
+
+    const promises = Array.from(files).map((file) => uploadFile(file));
+    await Promise.all(promises);
+    setIsUploading(false);
+  };
+
+  return {
+    uploadedFiles,
+    progresses,
+    uploadFiles,
+    isUploading,
+  };
+};
+
+export default useUploadFile;
+---------------------------------------------

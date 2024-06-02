@@ -99,20 +99,21 @@ model Column {
   id  String  @id @default(auto()) @map("_id")  @db.ObjectId
   boardId String @db.ObjectId
   board Board @relation(fields: [boardId],references: [id])
+  title String 
   position Int @default(0)
-  cards Card[] 
+  tasks Task[] 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Card {
+model Task {
   id  String  @id @default(auto()) @map("_id")  @db.ObjectId
   title String 
   description String 
   columnId String @db.ObjectId
   column Column @relation(fields: [columnId],references: [id])
   comments Comment[] 
-  activities CardActivity[] 
+  activities TaskActivity[] 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -120,9 +121,9 @@ model Card {
 model Comment {
   id  String  @id @default(auto()) @map("_id")  @db.ObjectId
   userId String @db.ObjectId
-  cardId String @db.ObjectId 
+  taskId String @db.ObjectId 
   user User @relation(fields: [userId], references: [id])
-  card Card @relation(fields: [cardId], references: [id])
+  task Task @relation(fields: [taskId], references: [id])
   content String 
   createdAt DateTime @default(now())
 }
@@ -135,11 +136,11 @@ model Activity {
   createdAt DateTime @default(now())
 }
 
-model CardActivity {
+model TaskActivity {
   id  String  @id @default(auto()) @map("_id")  @db.ObjectId
   content String 
-  cardId String @db.ObjectId
-  card Card @relation(fields: [cardId],references: [id])
+  taskId String @db.ObjectId
+  task Task @relation(fields: [taskId],references: [id])
 }
 
 

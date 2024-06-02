@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { cva } from "class-variance-authority";
 import { LuGripVertical } from "react-icons/lu";
 import { Badge } from "@/components/ui/badge";
-import { TaskCardProps, TaskDragData } from "@/schemas/drag";
+import { TaskCardProps, TaskDragData } from "@/schemas/drag-schemas";
 
 export function TaskCard({ task, isOverlay }: TaskCardProps) {
   const {

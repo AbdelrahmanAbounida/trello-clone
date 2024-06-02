@@ -2,16 +2,6 @@
 import React, { useEffect, useState } from "react";
 
 const ModalProvider = () => {
-  const [isMounted, setisMounted] = useState(false);
-
-  useEffect(() => {
-    setisMounted(true);
-  }, []);
-
-  // prevent hyderation error
-  if (!isMounted) {
-    return null;
-  }
   return (
     <>
       {/**

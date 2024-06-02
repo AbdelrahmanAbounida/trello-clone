@@ -1,4 +1,4 @@
-import { ColumnDragData, TaskDragData } from "@/schemas/drag";
+import { ColumnDragData, TaskDragData } from "@/schemas/drag-schemas";
 import {
   Active,
   DataRef,

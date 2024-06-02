@@ -1,10 +1,12 @@
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 import React from "react";
 
 const Logo = () => {
   return (
-    <div className="text-3xl font-bold">
-      <span className="text-blue-600 text-[35px]">T</span>rellofy
-    </div>
+    <Link href={"/"} className={cn("text-xl font-bold font-poppin")}>
+      <span className="text-sky-600 text-[25px]">T</span>rellofy
+    </Link>
   );
 };
 

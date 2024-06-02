@@ -34,6 +34,7 @@ export const {
     error: "/login",
     signOut: "/login",
   },
+  // secret: process.env.AUTH_SECRET,
   events: {
     async linkAccount({ user }) {
       await prismadb.user.update({

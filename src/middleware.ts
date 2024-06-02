@@ -5,6 +5,7 @@ import {
   AUTH_ROUTES,
   DEFAULT_LOGIN_REDIRECTED,
   PROTECTED_ROUTES,
+  PUBLIC_ROUTES,
 } from "@/routes";
 import { NextResponse } from "next/server";
 
@@ -15,7 +16,7 @@ export default auth((req) => {
   const { nextUrl } = req;
 
   const isLogedIn = !!req.auth;
-  const isProtectedRoute = PROTECTED_ROUTES.includes(nextUrl.pathname);
+  const isPublicRoute = PUBLIC_ROUTES.includes(nextUrl.pathname);
   const isAuthRoute = AUTH_ROUTES.includes(nextUrl.pathname);
   const isApiAuthRoute = nextUrl.pathname.startsWith(API_AUTH_PREFIX);
 
@@ -34,7 +35,7 @@ export default auth((req) => {
     return;
   }
   // if it is protected route
-  if (isProtectedRoute && !isLogedIn) {
+  if (!isPublicRoute && !isLogedIn) {
     let callbackurl = nextUrl.pathname;
     if (nextUrl.search) callbackurl += nextUrl.search;
     const encodedCallbackUrl = encodeURIComponent(callbackurl);

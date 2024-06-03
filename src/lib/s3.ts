@@ -40,8 +40,8 @@ export const uploadImageAsThumbnailtoS3 = async (
 
 export const uploadImageToS3 = async (file: File): Promise<string> => {
   const buffer = await fileToBuffer(file);
-  const generatedImageKey = await uploadBufferToS3(buffer, "image/webp");
-  return generatedImageKey;
+  const imageUrl = await uploadBufferToS3(buffer, "image/webp");
+  return imageUrl;
 };
 
 // main upload / delete functions
@@ -50,7 +50,7 @@ export const uploadBufferToS3 = async (
   contentType: string,
   metadata?: object
 ): Promise<string> => {
-  /** return generated key of uploaded buffer */
+  /** return image url including generated key of uploaded buffer */
 
   const generatedKey = await createRandomImageKey();
   const params: PutObjectCommandInput = {
@@ -65,7 +65,8 @@ export const uploadBufferToS3 = async (
   const command = new PutObjectCommand(params);
   try {
     const data = await s3Client.send(command);
-    return generatedKey;
+    const imageUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${generatedKey}`;
+    return imageUrl;
   } catch (error) {
     console.error("Error uploading file to S3:", error);
     throw new Error("Failed to upload file to S3");

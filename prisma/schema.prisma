@@ -40,7 +40,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  organizations UserSOnOrganization[] 
+  workspaces UserSOnWorkspace[] 
   comments Comment[] 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -64,19 +64,19 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Organization {
+model Workspace {
   id  String  @id @default(auto()) @map("_id")  @db.ObjectId
   name String 
   boards Board[]
   activities Activity[]
-  users UserSOnOrganization[] 
+  users UserSOnWorkspace[] 
   ownerId String @db.ObjectId
 }
 // many to many with user 
-model UserSOnOrganization {
+model UserSOnWorkspace {
   id  String  @id @default(auto()) @map("_id")  @db.ObjectId
-  organization       Organization     @relation(fields: [organizationId], references: [id])
-  organizationId     String @db.ObjectId 
+  workspace       Workspace     @relation(fields: [workspaceId], references: [id])
+  workspaceId     String @db.ObjectId 
   user   User @relation(fields: [userId], references: [id])
   userId     String @db.ObjectId 
   role UserRole
@@ -84,8 +84,8 @@ model UserSOnOrganization {
 
 model Board {
   id  String  @id @default(auto()) @map("_id")  @db.ObjectId
-  organizationId String @db.ObjectId 
-  organization Organization @relation(fields: [organizationId], references: [id])
+  workspaceId String @db.ObjectId 
+  workspace Workspace @relation(fields: [workspaceId], references: [id])
   title String 
   is_public Boolean 
   backgroundImage String 
@@ -130,8 +130,8 @@ model Comment {
 model Activity {
   id  String  @id @default(auto()) @map("_id")  @db.ObjectId
   content String 
-  organizationId String @db.ObjectId  
-  organization Organization @relation(fields: [organizationId], references: [id])
+  workspaceId String @db.ObjectId  
+  workspace Workspace @relation(fields: [workspaceId], references: [id])
   createdAt DateTime @default(now())
 }
 

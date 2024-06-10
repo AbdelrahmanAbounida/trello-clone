@@ -66,11 +66,12 @@ model VerificationToken {
 
 model Workspace {
   id  String  @id @default(auto()) @map("_id")  @db.ObjectId
-  name String 
+  name String  @unique
   boards Board[]
   activities Activity[]
   users UserSOnWorkspace[] 
   ownerId String @db.ObjectId
+  logo String?
 }
 // many to many with user 
 model UserSOnWorkspace {
@@ -88,7 +89,7 @@ model Board {
   workspace Workspace @relation(fields: [workspaceId], references: [id])
   title String 
   is_public Boolean 
-  backgroundImage String 
+  backgroundImage String?
   columns Column[]
 
   createdAt DateTime @default(now())

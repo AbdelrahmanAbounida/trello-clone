@@ -18,16 +18,19 @@ export interface TaskDragData {
 // ************************
 // Column
 // ************************
+export interface ColumnWithTasks extends Column {
+  tasks: Task[];
+}
 
 export type ColumnType = "Column";
 
 export interface ColumnDragData {
   type: ColumnType;
-  column: Column;
+  column: ColumnWithTasks;
 }
 
 export interface BoardColumnProps {
-  column: Column;
+  column: ColumnWithTasks;
   tasks: Task[];
   isOverlay?: boolean;
 }

@@ -13,22 +13,22 @@ export interface SidebarItem {
 export const SidenavbarItems: SidebarItem[] = [
   {
     title: "Boards",
-    href: "/",
+    href: "boards",
     icon: <BsGrid1X2 />,
   },
   {
     title: "Activity",
-    href: "/activity",
+    href: "activity",
     icon: <GoPulse />,
   },
   {
     title: "Settings",
-    href: "/settings",
+    href: "settings",
     icon: <BsGear />,
   },
   {
     title: "Billing",
-    href: "/billing",
+    href: "billing",
     icon: <CiMoneyBill />,
   },
 ];

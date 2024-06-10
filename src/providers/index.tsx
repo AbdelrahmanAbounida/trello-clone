@@ -8,19 +8,9 @@ export const AllProviders = async ({
 }: {
   children: React.ReactNode;
 }) => {
-  // const [isMounted, setisMounted] = useState(false);
-
-  // useEffect(() => {
-  //   setisMounted(true);
-  // }, []);
-
-  // // prevent hyderation error
-  // if (!isMounted) {
-  //   return null;
-  // }
   return (
     <AuthProvider>
-      <ThemeProvider defaultTheme="dark" attribute="class">
+      <ThemeProvider defaultTheme="light" attribute="class">
         <ModalProvider />
         {children}
       </ThemeProvider>

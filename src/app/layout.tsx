@@ -8,9 +8,9 @@ import { auth } from "@/auth";
 import { AllProviders } from "@/providers";
 
 const montserrat = Montserrat({
-  weight: "400",
+  weight: "500",
   display: "auto",
-  subsets: ["latin"],
+  subsets: ["cyrillic"],
 }); //  subsets: ["latin"]
 
 export const metadata: Metadata = {
@@ -27,8 +27,8 @@ export default async function RootLayout({
     <html lang="en">
       <body className={cn(montserrat.className, "h-screen  ")}>
         <AllProviders>
-          {children}
           <Toaster />
+          {children}
         </AllProviders>
       </body>
     </html>

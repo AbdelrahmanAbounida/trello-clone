@@ -30,10 +30,10 @@ const AuthForm = ({
   callbackurl,
 }: AuthFormProps) => {
   return (
-    <div className="space-y-5 w-[450px] transition-all ease-in-out delay-100 ">
+    <div className="space-y-5 w-[450px] transition-all ease-in-out delay-100  ">
       <Card className="">
         {/* logo */}
-        <div className="w-full flex justify-center items-center text-center h-16">
+        <div className="w-full flex justify-center items-center text-center h-16 ">
           <Logo />
         </div>
         {/* Header */}

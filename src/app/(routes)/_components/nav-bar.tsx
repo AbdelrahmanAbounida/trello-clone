@@ -5,12 +5,12 @@ import { CiMenuBurger } from "react-icons/ci";
 import LayoutSidebar from "./side-bar";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/logo";
-import CreateBoardButton from "./create-board-btn";
 import ProfileAvatar from "./profile-avatar";
 import ModeToggle from "./mode-toggle";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useSession } from "next-auth/react";
-import { Skeleton } from "@/components/ui/skeleton";
+import BoardModal from "@/components/modals/board-modal";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const user = useCurrentUser();
@@ -45,7 +45,7 @@ const Navbar = () => {
         {/** 2- Logo */}
         <Logo />
         {/** 3- Create Board Button */}
-        <CreateBoardButton />
+        <BoardModal />
       </div>
 
       <div className="flex items-center gap-3 ">

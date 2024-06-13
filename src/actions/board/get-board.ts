@@ -29,7 +29,14 @@ export const getBoardbyId = async ({ boardId }: { boardId: string }) => {
       include: {
         columns: {
           include: {
-            tasks: true,
+            tasks: {
+              orderBy: {
+                position: "asc",
+              },
+            },
+          },
+          orderBy: {
+            position: "asc",
           },
         },
       },

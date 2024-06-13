@@ -6,8 +6,11 @@ export default function BoardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={cn("h-screen  ")}>{children}</body>
-    </html>
+    <div className={cn(" flex flex-col ")}>
+      {/* <div className="sticky px-3 ">
+        <Navbar />
+      </div> */}
+      <div className="h-screen">{children}</div>
+    </div>
   );
 }

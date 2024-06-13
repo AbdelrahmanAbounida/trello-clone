@@ -22,6 +22,10 @@ export interface ColumnWithTasks extends Column {
   tasks: Task[];
 }
 
+export interface TaskWithcolumn extends Task {
+  column: ColumnWithTasks;
+}
+
 export type ColumnType = "Column";
 
 export interface ColumnDragData {

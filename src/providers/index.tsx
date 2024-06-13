@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "./theme-provider";
 import ModalProvider from "./modal-provider";
 import { AuthProvider } from "./auth-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 export const AllProviders = async ({
   children,
@@ -11,6 +12,7 @@ export const AllProviders = async ({
   return (
     <AuthProvider>
       <ThemeProvider defaultTheme="light" attribute="class">
+        <Toaster />
         <ModalProvider />
         {children}
       </ThemeProvider>

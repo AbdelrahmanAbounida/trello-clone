@@ -109,7 +109,8 @@ model Column {
 model Task {
   id  String  @id @default(auto()) @map("_id")  @db.ObjectId
   title String 
-  description String 
+  description String?
+  position Int
   columnId String @db.ObjectId
   column Column @relation(fields: [columnId],references: [id])
   comments Comment[] 

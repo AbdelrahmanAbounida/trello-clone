@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { LuUser2 } from "react-icons/lu";
 import { useActiveWorkspace } from "@/hooks/use-active-ws";
 import BoardModal from "@/components/modals/board-modal";
+import Link from "next/link";
 
 // this page only in case of empty workspaces
 interface WorkspacePageParams {
@@ -36,7 +37,7 @@ const WorkspaceBoards = ({ params }: WorkspacePageParams) => {
       {/** Loading State  */}
       {(WsLoading || isLoading) && <WorkSpacesLoading />}
       {/** Empty state with no boards  */}
-      {!isLoading && !WsLoading && boards?.length == 0 && (
+      {!isLoading && !WsLoading && (
         <div className="h-full w-full flex flex-col items-start p-2  rounded-md">
           {/** title */}
           <div className="flex items-center justify-start gap-4 p-1">
@@ -68,22 +69,23 @@ const WorkspaceBoards = ({ params }: WorkspacePageParams) => {
               <p className="text-xl font-medium">Your Boards</p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 mt-5 w-full ">
-              {boards.map((board, index) => (
-                <div
+            <div className="flex flex-wrap items-start gap-5 p-1 mt-5 w-full ">
+              {boards?.map((board, index) => (
+                <Link
+                  href={`/${params.workspaceId}/${board.id}`}
                   key={index}
                   style={{ backgroundImage: `url(${board.backgroundImage})` }}
-                  className={`w-[400px h-[300px]  relative`}
+                  className={`w-[230px] h-[120px] border hover:opacity-95 opacity-100 cursor-pointer rounded-lg active:scale-[0.99] scale-100 relative`}
                 >
-                  <p className="absolute top-3 left-2 text-lg text-white font-medium">
+                  <p className="absolute top-3 left-2 text-lg  text-white font-medium">
                     {board.title}
                   </p>
-                </div>
+                </Link>
               ))}
-              {boards.length < 5 && (
+              {boards?.length! < 5 && (
                 <BoardModal>
                   <div
-                    className={`w-[230px] h-[140px] cursor-pointer rounded-lg bg-gray-100 hover:bg-gray-200/70 text-black flex flex-col items-center justify-center relative`}
+                    className={`w-[230px] h-[120px] cursor-pointer rounded-lg active:scale-[0.99] scale-100 bg-gray-100 hover:bg-gray-200/70 text-black flex flex-col items-center justify-center relative`}
                   >
                     <p className="text-lg">Create New Board</p>
 
@@ -96,6 +98,7 @@ const WorkspaceBoards = ({ params }: WorkspacePageParams) => {
           </div>
         </div>
       )}
+
       {/** List of boards */}
     </div>
   );

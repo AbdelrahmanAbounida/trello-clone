@@ -1,6 +1,6 @@
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { cva } from "class-variance-authority";
 import { LuGripVertical } from "react-icons/lu";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -15,6 +15,9 @@ import {
 } from "@radix-ui/react-icons";
 import ColumnDropdown from "../utils/col-dropdown";
 import EmptyTask from "../utils/empty-task";
+import { Input } from "@/components/ui/input";
+import { renameCol } from "@/actions/col/update-cols";
+import toast from "react-hot-toast";
 
 export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
   const tasksIds = useMemo(() => {
@@ -57,6 +60,23 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
     }
   );
 
+  // new col title
+  const [newcolTitle, setnewcolTitle] = useState(column.title);
+
+  const handleupdateColtitle = async () => {
+    try {
+      const res = await renameCol({ colId: column.id, newtitle: newcolTitle });
+
+      if (res?.error) {
+        toast.error(res?.details);
+      } else {
+        toast.success("List renamed successfully");
+      }
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
   return (
     <Card
       {...attributes}
@@ -75,7 +95,13 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
         }}
         className="p-4 font-semibold border-b-2 text-left flex flex-row cursor-default justify-between items-center"
       >
-        <span className="">{column.title}</span>
+        {/* <span className="">{column.title}</span> */}
+        <Input
+          className="border-0 shadow-none font-semibold text-md  focus:border-2"
+          value={newcolTitle}
+          onChange={(e) => setnewcolTitle(e.target.value)}
+          onBlur={handleupdateColtitle}
+        />
         {/** col dropdown */}
         <ColumnDropdown column={column} />
       </CardHeader>

@@ -12,9 +12,56 @@ import { Cross2Icon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { FaTrash } from "react-icons/fa";
 import { Board } from "@prisma/client";
+import BoardModal from "@/components/modals/board-modal";
+import toast from "react-hot-toast";
+import { useGlobalLoading } from "@/hooks/use-global-loading";
+import { copyBoard } from "@/actions/board/create-board";
+import { useRouter } from "next/navigation";
+import { deleteBoard } from "@/actions/board/delete-board";
 
 const BoardDropdown = ({ board }: { board: Board }) => {
   const [openMenu, setopenMenu] = useState(false);
+  const { setIsGlobalLoading, isGlobalLoading } = useGlobalLoading();
+  const router = useRouter();
+
+  const handleCopyingBoard = async () => {
+    try {
+      // copy loading
+      setIsGlobalLoading(true);
+      const resp = await copyBoard({ boardId: board.id });
+
+      if (resp.error) {
+        toast.error(resp?.details);
+      } else {
+        router.push(`/${board.workspaceId}/boards`);
+      }
+    } catch (error) {
+      console.log({ error });
+      toast.error("Failed copying board");
+    } finally {
+      setIsGlobalLoading(false);
+    }
+  };
+
+  const handleDeleteBoard = async () => {
+    try {
+      // copy loading
+      setIsGlobalLoading(true);
+      const resp = await deleteBoard({ boardId: board.id });
+
+      if (resp.error) {
+        toast.error(resp?.details);
+      } else {
+        router.push(`/${board.workspaceId}/boards`);
+      }
+    } catch (error) {
+      console.log({ error });
+      toast.error("Failed deleting board");
+    } finally {
+      setIsGlobalLoading(false);
+    }
+  };
+
   return (
     <DropdownMenu open={openMenu} onOpenChange={setopenMenu}>
       <DropdownMenuTrigger className="focus:outline-none outline-none ring-0 border-0 focus:ring-0">
@@ -43,16 +90,31 @@ const BoardDropdown = ({ board }: { board: Board }) => {
           </Button>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="items-center justify-between gap-3 py-2">
-          Create New Board
-        </DropdownMenuItem>
-        <DropdownMenuItem className="items-center justify-between gap-3 py-2">
+        {/* <DropdownMenuItem className="items-center justify-between gap-3 py-2"> */}
+        <div
+          //   onClick={() => setopenMenu(false)}
+          className="hover:bg-gray-100 w-full py-[0.39rem] "
+        >
+          <BoardModal>
+            <span className=" relative flex cursor-default select-none items-center rounded-sm px-2  text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+              Create New Board
+            </span>
+          </BoardModal>
+        </div>
+        {/* </DropdownMenuItem> */}
+        <DropdownMenuItem
+          onClick={handleCopyingBoard}
+          className="items-center justify-between gap-3 py-2"
+        >
           Copy Board
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="items-center justify-between gap-3 py-2">
+        <DropdownMenuItem
+          onClick={handleDeleteBoard}
+          className="items-center justify-between gap-3 py-2"
+        >
           Delete Board
-          <FaTrash className=" w-4 h-4 " />
+          <FaTrash className=" w-4 h-4 " fill="red" />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

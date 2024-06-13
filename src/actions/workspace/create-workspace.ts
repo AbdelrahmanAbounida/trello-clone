@@ -11,7 +11,6 @@ export const createNewWorkSpace = async ({
   name: string;
 }): Promise<ActionResponse> => {
   try {
-    console.log("Creating new workspace");
     // 0- check auth
     if (!userId) {
       return {

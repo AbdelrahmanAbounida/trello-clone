@@ -1,11 +1,15 @@
-import { ColumnWithTasks, TaskWithcolumn } from "@/schemas/drag-schemas";
+import {
+  ColumnWithTasks,
+  TaskWithColumnWithActivities,
+  TaskWithcolumn,
+} from "@/schemas/drag-schemas";
 import { Task } from "@prisma/client";
 import { create } from "zustand";
 
 type BoardStore = {
   // tasks
-  taskToBeShown: TaskWithcolumn | null;
-  setTaskTobeShow: (task: TaskWithcolumn | null) => void;
+  taskToBeShown: TaskWithColumnWithActivities | null;
+  setTaskTobeShow: (task: TaskWithColumnWithActivities | null) => void;
   setcolTasks: (newTasks: Task[], col: ColumnWithTasks) => void; // update tasks position in a col
 
   // cols

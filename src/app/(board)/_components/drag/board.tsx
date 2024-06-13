@@ -10,35 +10,27 @@ import {
   type DragStartEvent,
   useSensor,
   useSensors,
-  KeyboardSensor,
-  Announcements,
-  UniqueIdentifier,
   TouchSensor,
   MouseSensor,
   useDndContext,
   PointerSensor,
 } from "@dnd-kit/core";
-import { SortableContext, arrayMove, arraySwap } from "@dnd-kit/sortable";
+import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { cva } from "class-variance-authority";
 import { ScrollBar } from "@/components/ui/scroll-area";
-import { Column, Task } from "@prisma/client";
-import { coordinateGetter, hasDraggableData } from "@/utils/drag-utils";
+import { Task } from "@prisma/client";
+import { hasDraggableData } from "@/utils/drag-utils";
 import { BoardColumn } from "./column";
 import { TaskCard } from "./task-card";
 import { ColumnWithTasks } from "@/schemas/drag-schemas";
 import EmptyColumn from "../utils/empty-col";
 import { useCurrentBoard } from "@/hooks/drag-board/use-current-board";
 import { toast } from "sonner";
-import {
-  updateColTaskPositions,
-  updateTaskPosition,
-} from "@/actions/task/update-task";
-import {
-  swapColsPositions,
-  updateColsPositions,
-} from "@/actions/col/update-cols";
-import { deleteTask } from "@/actions/task/delete-task";
+import { updateColTaskPositions } from "@/actions/task/update-task";
+import { updateColsPositions } from "@/actions/col/update-cols";
+import { useGlobalLoading } from "@/hooks/use-global-loading";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export type ColumnId = string;
 
@@ -75,22 +67,14 @@ export function KanbanBoard({
     setCols(boardColumns);
   }, [boardColumns]);
 
-  // update task pos in database
-  const updateTaskPos = async (newPos: number) => {
-    try {
-      const resp = await updateTaskPosition({ task: activeTask!, newPos });
-      if (resp?.error) {
-        toast.error(resp?.details);
-      } else {
-        toast.success("Task position updated successfully");
-      }
-    } catch (error) {
-      console.log({ error });
-      toast.error("Something went wrong");
-    }
-  };
+  const { isGlobalLoading } = useGlobalLoading();
 
-  return (
+  return isGlobalLoading ? (
+    <div className="h-full w-full flex flex-col text-slate-300 text-2xl opacity-100  items-center justify-center">
+      <ReloadIcon className="animate-spin h-20 w-20 text-white" fill="white" />
+      Copying Board
+    </div>
+  ) : (
     <DndContext
       //   accessibility={{
       //     announcements,

@@ -59,7 +59,7 @@ export function TaskCard({
       style={style}
       className={variants({
         dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
-        className: "cursor-grab",
+        className: "cursor-grab hover:opacity-75 opacity-100",
       })}
       onClick={() => {
         setTaskTobeShow({ ...task, column });
@@ -78,7 +78,7 @@ export function TaskCard({
           // {...attributes}
           // {...listeners}
         >
-          <TaskDropdown task={task} />
+          <TaskDropdown task={task} column={column} />
         </div>
       </CardHeader>
       <CardContent className="px-3 pt-3 pb-6 text-left whitespace-pre-wrap">

@@ -50,7 +50,6 @@ export const updateColsPositions = async ({
   try {
     await Promise.all(
       newCols.map((col, index) => {
-        console.log(col.title);
         return prismadb.column.update({
           where: {
             id: col?.id,

@@ -36,6 +36,7 @@ const EmptyTask = ({
         sonnerToast.error(`${resp.details} `);
         return;
       }
+
       sonnerToast.success(`${newTaskName} Card added successfully`);
       setshowAddTask(false);
       router.refresh();

@@ -5,6 +5,7 @@ import { ActionResponse } from "@/schemas/action-resp";
 import { createActivity } from "../activity/create-activity";
 import { createBoardSchema } from "@/schemas/board-schemas";
 import { z } from "zod";
+import { getBoardbyId } from "./get-board";
 
 const CreateNewBoardPropsSchema = createBoardSchema
   .extend({
@@ -61,5 +62,67 @@ export const createNewBoard = async ({
       error: true,
       details: "Something went wrong",
     };
+  }
+};
+
+export const copyBoard = async ({
+  boardId,
+}: {
+  boardId: string;
+}): Promise<ActionResponse> => {
+  try {
+    const board = await getBoardbyId({ boardId });
+    if (!board) {
+      return { error: true, details: "board not found " };
+    }
+
+    // Copy the board
+    const newBoard = await prismadb.board.create({
+      data: {
+        title: `${board.title} (Copy)`,
+        is_public: board.is_public,
+        backgroundImage: board.backgroundImage,
+        workspaceId: board.workspaceId,
+      },
+    });
+
+    await Promise.all(
+      board.columns.map(async (column) => {
+        // Copy the columns
+        const col = await prismadb.column.create({
+          data: {
+            title: column.title,
+            position: column.position,
+            boardId: newBoard.id,
+          },
+          select: {
+            tasks: true,
+            id: true,
+          },
+        });
+        // copy tasks
+        await Promise.all(
+          column.tasks.map((task) => {
+            return prismadb.task.create({
+              data: {
+                position: task.position,
+                title: task.title,
+                columnId: col.id,
+              },
+            });
+          })
+        );
+      })
+    );
+
+    await createActivity({
+      workspaceId: newBoard.workspaceId,
+      content: `copied board "${newBoard.title}"`,
+    });
+
+    return { error: false, details: newBoard };
+  } catch (error) {
+    console.log({ error });
+    return { error: false, details: "Failed copying board" };
   }
 };

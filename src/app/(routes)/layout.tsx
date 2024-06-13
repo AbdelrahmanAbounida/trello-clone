@@ -2,6 +2,7 @@
 import LayoutSidebar from "./_components/side-bar";
 import Navbar from "./_components/nav-bar";
 import { motion } from "framer-motion";
+import { useGlobalLoading } from "@/hooks/use-global-loading";
 
 export default function RoutesLayout({
   children,

@@ -15,6 +15,15 @@ export const getColumnById = async ({
       },
       select: {
         tasks: true,
+        id: true,
+        boardId: true,
+        title: true,
+        position: true,
+        board: {
+          select: {
+            columns: true,
+          },
+        },
       },
     });
     return { error: false, details: col };

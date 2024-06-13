@@ -16,10 +16,36 @@ import toast from "react-hot-toast";
 import { deleteTask } from "@/actions/task/delete-task";
 import { useCurrentBoard } from "@/hooks/drag-board/use-current-board";
 import { useRouter } from "next/navigation";
+import { ColumnWithTasks } from "@/schemas/drag-schemas";
+import { copyTask } from "@/actions/task/create-task";
 
-const TaskDropdown = ({ task }: { task: Task }) => {
+const TaskDropdown = ({
+  task,
+  column,
+}: {
+  task: Task;
+  column: ColumnWithTasks;
+}) => {
   const [openMenu, setopenMenu] = useState(false);
   const router = useRouter();
+
+  const { setTaskTobeShow } = useCurrentBoard();
+
+  const handleCopyTask = async () => {
+    try {
+      const resp = await copyTask({
+        taskId: task.id,
+      });
+      if (resp?.error) {
+        toast.error(resp?.details);
+      }
+      router.refresh();
+      console.log({ resp });
+    } catch (error) {
+      console.log({ error });
+      toast.error("something went wrong");
+    }
+  };
 
   const handleDeleteTask = async () => {
     try {
@@ -65,11 +91,17 @@ const TaskDropdown = ({ task }: { task: Task }) => {
           </Button>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="items-center justify-between gap-3 py-2">
+        <DropdownMenuItem
+          onClick={() => setTaskTobeShow({ ...task, column })}
+          className="items-center justify-between gap-3 py-2"
+        >
           open Card
           {/* <PlusIcon className=" w-4 h-4 text-accent-foreground " /> */}
         </DropdownMenuItem>
-        <DropdownMenuItem className="items-center justify-between gap-3 py-2">
+        <DropdownMenuItem
+          onClick={handleCopyTask}
+          className="items-center justify-between gap-3 py-2"
+        >
           Copy Card
           {/* <CopyIcon className="w-4 h-4" /> */}
         </DropdownMenuItem>

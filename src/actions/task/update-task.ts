@@ -81,14 +81,15 @@ export const updateColTaskPositions = async ({
 
 export const updateTaskDescription = async ({
   taskId,
-  workspaceId,
   newDescription,
 }: {
   taskId: string;
-  workspaceId: string;
   newDescription: string;
 }): Promise<ActionResponse> => {
   try {
+    if (!taskId) {
+      return { error: true, details: "taskId musnt be none" };
+    }
     const updatedTask = await prismadb.task.update({
       where: {
         id: taskId,
@@ -96,11 +97,19 @@ export const updateTaskDescription = async ({
       data: {
         description: newDescription,
       },
+      select: {
+        column: {
+          select: {
+            board: true,
+          },
+        },
+        title: true,
+      },
     });
 
     // create new act
     await createActivity({
-      workspaceId,
+      workspaceId: updatedTask.column.board.workspaceId,
       content: `updated task description "${updatedTask.title}"`,
     });
     return { error: false, details: updatedTask };
@@ -118,6 +127,9 @@ export const renameTask = async ({
   newtitle: string;
 }): Promise<ActionResponse> => {
   try {
+    if (!taskId) {
+      return { error: true, details: "taskid is null" };
+    }
     const updatedTask = await prismadb.task.update({
       where: {
         id: taskId,

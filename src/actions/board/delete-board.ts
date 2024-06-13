@@ -55,11 +55,13 @@ export const deleteBoardColumns = async ({
       return { error: true, details: "Board not found " };
     }
 
+    // delete board columns
     await Promise.all(
       board.columns.map((col) => {
         return deleteColumn({ colId: col.id, withActivity: false });
       })
     );
+
     return { error: false, details: board };
   } catch (error) {
     console.log({ error });

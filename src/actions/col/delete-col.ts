@@ -60,7 +60,7 @@ export const deleteColumnTasks = async ({
     }
     const col: ColumnWithTasks = resp.details;
 
-    // 1- create col tasks
+    // 1- delete col tasks
     await Promise.all(
       col.tasks.map((task) => {
         return prismadb.task.delete({

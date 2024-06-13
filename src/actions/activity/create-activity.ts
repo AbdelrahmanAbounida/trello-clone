@@ -14,12 +14,16 @@ import { ActionResponse } from "@/schemas/action-resp";
 - Board created  ✅
 - Board Renamed ✅
 - Board Deleted ✅
+- Board Copied ✅
+
 
 
 *** Column Activities ***
 - Column Created  ✅
 - Column Renamed ✅
 - Column Deleted ✅
+- Column Copied ✅
+
 
 *** Task Activities ***
 - Task Created ✅

@@ -3,8 +3,6 @@ import { Montserrat } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { SessionProvider } from "next-auth/react";
-import { auth } from "@/auth";
 import { AllProviders } from "@/providers";
 
 const montserrat = Montserrat({

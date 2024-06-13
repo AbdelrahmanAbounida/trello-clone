@@ -1,6 +1,7 @@
 "use server";
 import { prismadb } from "@/lib/db";
 import { ActionResponse } from "@/schemas/action-resp";
+import { createActivity } from "../activity/create-activity";
 
 export const createNewcolumn = async ({
   title,
@@ -18,7 +19,17 @@ export const createNewcolumn = async ({
         boardId,
         position,
       },
+      select: {
+        board: true,
+      },
     });
+
+    // create activity
+    await createActivity({
+      workspaceId: col.board.workspaceId,
+      content: `created list "${title}"`,
+    });
+
     return {
       error: false,
       details: col,

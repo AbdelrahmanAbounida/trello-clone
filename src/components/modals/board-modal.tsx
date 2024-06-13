@@ -20,7 +20,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useBoardModal } from "@/hooks/modals/use-board-modal";
 import { Switch } from "@/components/ui/switch";
 import { useForm } from "react-hook-form";
 import {
@@ -28,10 +27,7 @@ import {
   createBoardSchemaType,
 } from "@/schemas/board-schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  createNewBoard,
-  createNewBoardAction,
-} from "@/actions/board/create-board";
+import { createNewBoard } from "@/actions/board/create-board";
 import toast from "react-hot-toast";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { uploadBoardImage } from "@/lib/s3";

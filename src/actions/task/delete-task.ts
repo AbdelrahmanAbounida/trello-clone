@@ -2,6 +2,7 @@
 
 import { prismadb } from "@/lib/db";
 import { ActionResponse } from "@/schemas/action-resp";
+import { createActivity } from "../activity/create-activity";
 
 export const deleteTask = async ({
   taskId,
@@ -11,13 +12,28 @@ export const deleteTask = async ({
   columnId: string;
 }): Promise<ActionResponse> => {
   try {
-    await prismadb.task.delete({
+    const deletedTask = await prismadb.task.delete({
       where: {
         id: taskId,
         columnId,
       },
+      select: {
+        column: {
+          select: {
+            board: true,
+          },
+        },
+        title: true,
+      },
     });
-    return { error: false, details: "task deleted successfully" };
+
+    // create new act
+    await createActivity({
+      workspaceId: deletedTask.column.board.workspaceId,
+      content: `deleted task "${deletedTask.title}"`,
+    });
+
+    return { error: false, details: deletedTask };
   } catch (error) {
     console.log({ error });
     return { error: true, details: "something went wrong" };

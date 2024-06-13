@@ -3,6 +3,7 @@
 import { prismadb } from "@/lib/db";
 import { ActionResponse } from "@/schemas/action-resp";
 import { ColumnWithTasks } from "@/schemas/drag-schemas";
+import { createActivity } from "../activity/create-activity";
 
 export const swapColsPositions = async ({
   activeCol,
@@ -63,6 +64,37 @@ export const updateColsPositions = async ({
     );
 
     return { error: false, details: "columns positions updated successfully" };
+  } catch (error) {
+    console.log({ error });
+    return { error: true, details: "something went wrong" };
+  }
+};
+
+export const renameCol = async ({
+  colId,
+  newtitle,
+}: {
+  colId: string;
+  newtitle: string;
+}): Promise<ActionResponse> => {
+  try {
+    const updatedCol = await prismadb.column.update({
+      where: {
+        id: colId,
+      },
+      data: {
+        title: newtitle,
+      },
+      select: {
+        board: true,
+      },
+    });
+    // create new act
+    await createActivity({
+      workspaceId: updatedCol.board.workspaceId,
+      content: `renamed list "${newtitle}"`,
+    });
+    return { error: false, details: updatedCol };
   } catch (error) {
     console.log({ error });
     return { error: true, details: "something went wrong" };

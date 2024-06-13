@@ -3,6 +3,7 @@
 import { prismadb } from "@/lib/db";
 import { ActionResponse } from "@/schemas/action-resp";
 import { Task } from "@prisma/client";
+import { createActivity } from "../activity/create-activity";
 
 export const updateTaskPosition = async ({
   newPos,
@@ -72,6 +73,72 @@ export const updateColTaskPositions = async ({
     }
 
     return { error: false, details: "tasks positions updated successfully" };
+  } catch (error) {
+    console.log({ error });
+    return { error: true, details: "something went wrong" };
+  }
+};
+
+export const updateTaskDescription = async ({
+  taskId,
+  workspaceId,
+  newDescription,
+}: {
+  taskId: string;
+  workspaceId: string;
+  newDescription: string;
+}): Promise<ActionResponse> => {
+  try {
+    const updatedTask = await prismadb.task.update({
+      where: {
+        id: taskId,
+      },
+      data: {
+        description: newDescription,
+      },
+    });
+
+    // create new act
+    await createActivity({
+      workspaceId,
+      content: `updated task description "${updatedTask.title}"`,
+    });
+    return { error: false, details: updatedTask };
+  } catch (error) {
+    console.log({ error });
+    return { error: true, details: "something went wrong" };
+  }
+};
+
+export const renameTask = async ({
+  taskId,
+  newtitle,
+}: {
+  taskId: string;
+  newtitle: string;
+}): Promise<ActionResponse> => {
+  try {
+    const updatedTask = await prismadb.task.update({
+      where: {
+        id: taskId,
+      },
+      data: {
+        title: newtitle,
+      },
+      select: {
+        column: {
+          select: {
+            board: true,
+          },
+        },
+      },
+    });
+    // create new act
+    await createActivity({
+      workspaceId: updatedTask.column.board.workspaceId,
+      content: `renamed task to "${newtitle}"`,
+    });
+    return { error: false, details: updatedTask };
   } catch (error) {
     console.log({ error });
     return { error: true, details: "something went wrong" };

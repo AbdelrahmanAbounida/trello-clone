@@ -1,6 +1,7 @@
 "use server";
 import { ActionResponse } from "@/schemas/action-resp";
 import { prismadb } from "@/lib/db";
+import { createActivity } from "../activity/create-activity";
 
 export const createNewWorkSpace = async ({
   userId,
@@ -38,6 +39,12 @@ export const createNewWorkSpace = async ({
         ownerId: userId,
         name,
       },
+    });
+
+    // create activity
+    await createActivity({
+      workspaceId: newWs.id,
+      content: `created workspace "${newWs.name}"`,
     });
 
     return {

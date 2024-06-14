@@ -62,7 +62,7 @@ const WorkspaceBoards = ({ params }: WorkspacePageParams) => {
               {boards?.length! < 5 && (
                 <BoardModal>
                   <div
-                    className={`w-[230px] h-[120px] cursor-pointer rounded-lg active:scale-[0.99] scale-100 bg-gray-100 hover:bg-gray-200/70 text-black flex flex-col items-center justify-center relative`}
+                    className={`w-[230px] h-[120px] cursor-pointer rounded-lg active:scale-[0.99] scale-100 bg-gray-100 hover:bg-gray-200/70 dark:bg-zinc-900 dark:hover:bg-zinc-900/80 text-black flex dark:text-white/80 flex-col items-center justify-center relative`}
                   >
                     <p className="text-lg">Create New Board</p>
 
@@ -75,8 +75,6 @@ const WorkspaceBoards = ({ params }: WorkspacePageParams) => {
           </div>
         </div>
       )}
-
-      {/** List of boards */}
     </div>
   );
 };

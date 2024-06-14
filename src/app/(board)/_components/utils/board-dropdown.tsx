@@ -93,7 +93,7 @@ const BoardDropdown = ({ board }: { board: Board }) => {
         {/* <DropdownMenuItem className="items-center justify-between gap-3 py-2"> */}
         <div
           //   onClick={() => setopenMenu(false)}
-          className="hover:bg-gray-100 w-full py-[0.39rem] "
+          className="hover:bg-gray-100 dark:hover:bg-zinc-900 w-full py-[0.39rem] "
         >
           <BoardModal>
             <span className=" relative flex cursor-default select-none items-center rounded-sm px-2  text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">

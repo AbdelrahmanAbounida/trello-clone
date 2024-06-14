@@ -24,4 +24,4 @@ export const API_AUTH_PREFIX = "/api/auth";
  * Redirected url after login
  * @type {String}
  */
-export const DEFAULT_LOGIN_REDIRECTED = "/";
+export const DEFAULT_LOGIN_REDIRECTED = "/main";

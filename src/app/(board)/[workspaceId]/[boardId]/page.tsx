@@ -34,7 +34,6 @@ const BoardPage = async ({ params }: { params: BoardPageParams }) => {
           >
             {currentBoard.title}
           </Link>
-          {/** ::TODO:: Add new dropdown for board settings */}
           <div className="cursor-pointer z-100 text-white">
             {/* <HiOutlineDotsHorizontal size={25} color="white" /> */}
             <BoardDropdown board={currentBoard} />

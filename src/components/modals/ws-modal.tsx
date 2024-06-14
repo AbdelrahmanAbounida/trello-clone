@@ -179,7 +179,7 @@ const WorkspaceModal = ({
 
       <DialogContent onClose={onClose} className=" ">
         <DialogHeader>
-          <DialogTitle className="w-full flex text-center items-center justify-center text-zinc-800">
+          <DialogTitle className="w-full flex text-center items-center justify-center dark:text-white text-zinc-800">
             Create Workspace
           </DialogTitle>
           <DialogDescription className="text-center">
@@ -262,7 +262,7 @@ const WorkspaceModal = ({
                 </Button>
               ) : (
                 <Button
-                  className="align-center w-full text-center bg-sky-700 hover:bg-sky-600 font-semibold text-md"
+                  className="align-center w-full text-center bg-sky-700 hover:bg-sky-600 font-semibold text-md dark:text-white"
                   type="submit"
                 >
                   Create

@@ -33,6 +33,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { uploadBoardImage } from "@/lib/s3";
 import { useRouter } from "next/navigation";
 import { useActiveWorkspace } from "@/hooks/use-active-ws";
+import { useTheme } from "next-themes";
 
 const computeSHA256 = async (file: File) => {
   const buffer = await file.arrayBuffer();
@@ -82,6 +83,7 @@ const BoardModal = ({ children }: { children?: React.ReactNode }) => {
   const [loading, setloading] = useState(false);
   const router = useRouter();
   const { activeWsId } = useActiveWorkspace();
+  const { theme } = useTheme();
 
   // form
   const form = useForm<createBoardSchemaType>({
@@ -149,7 +151,11 @@ const BoardModal = ({ children }: { children?: React.ReactNode }) => {
       </DialogTrigger>
       <DialogContent className=" ">
         <DialogHeader>
-          <DialogTitle className="w-full flex text-center items-center justify-center text-zinc-800">
+          <DialogTitle
+            className={`w-full flex text-center items-center justify-center ${
+              theme == "dark" ? "text-zinc-100" : "text-zinc-800"
+            }`}
+          >
             Create Board
           </DialogTitle>
           <DialogDescription className="text-center">
@@ -253,7 +259,7 @@ const BoardModal = ({ children }: { children?: React.ReactNode }) => {
                 </Button>
               ) : (
                 <Button
-                  className="align-center w-full text-center bg-sky-700 hover:bg-sky-600 font-semibold text-md"
+                  className="align-center w-full dark:text-white text-center bg-sky-700 hover:bg-sky-600 font-semibold text-md"
                   // onClick={createBoard}
                   type="submit"
                 >

@@ -30,48 +30,7 @@ const BillingWorkspace = ({ params }: WorkspacePageParams) => {
       {/** Loading State  */}
       {(WsLoading || isLoading) && <WorkSpacesLoading />}
       {/** Empty state with no boards  */}
-      {!isLoading && !WsLoading && (
-        <div className="h-full w-full flex flex-col items-start p-2  rounded-md">
-          {/** Navbar */}
-          <WorkshopHeader currentWorkspace={currentWorkspace!} />
-
-          {/** boards list */}
-          <div className="flex flex-col my-4 mt-7 w-full">
-            <div className="flex items-center gap-1">
-              <LuUser2 size={35} />
-              <p className="text-xl font-medium">Your Boards</p>
-            </div>
-
-            <div className="flex flex-wrap items-start gap-5 p-1 mt-5 w-full ">
-              {boards?.map((board, index) => (
-                <Link
-                  href={`/${params.workspaceId}/${board.id}`}
-                  key={index}
-                  style={{ backgroundImage: `url(${board.backgroundImage})` }}
-                  className={`w-[230px] h-[120px] border hover:opacity-95 opacity-100 cursor-pointer rounded-lg active:scale-[0.99] scale-100 relative`}
-                >
-                  <p className="absolute top-3 left-2 text-lg  text-white font-medium">
-                    {board.title}
-                  </p>
-                </Link>
-              ))}
-              {boards?.length! < 5 && (
-                <BoardModal>
-                  <div
-                    className={`w-[230px] h-[120px] cursor-pointer rounded-lg active:scale-[0.99] scale-100 bg-gray-100 hover:bg-gray-200/70 text-black flex flex-col items-center justify-center relative`}
-                  >
-                    <p className="text-lg">Create New Board</p>
-
-                    {/** ::TODO:: Handle max num of boards */}
-                    <p className="text-sm">1 remaining</p>
-                  </div>
-                </BoardModal>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
+      TODO: Billing Modal
       {/** List of boards */}
     </div>
   );

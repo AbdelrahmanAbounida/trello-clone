@@ -175,7 +175,7 @@ const CardModal = () => {
 
   return (
     <Dialog open={!!taskToBeShown} onOpenChange={() => setTaskTobeShow(null)}>
-      <DialogContent className="sm:max-w-5xl bg-[#F3F2F5] p-7">
+      <DialogContent className="sm:max-w-5xl bg-[#F3F2F5] dark:bg-zinc-900  p-7">
         {loading?.task ? (
           <DialogLoading />
         ) : (
@@ -184,15 +184,11 @@ const CardModal = () => {
               <div className="flex items-start gap-3 ">
                 <StackIcon className="w-6 h-6" />
                 <DialogTitle className="flex flex-col items-start gap-0">
-                  {/* <span className="text-2xl text-zinc-700">
-                {taskToBeShown?.title}
-              </span> */}
-
                   <Input
                     onClick={() => setfocused(true)}
                     autoFocus={false}
-                    className="border-0 shadow-none text-2xl text-zinc-700 font-semibold  w-full flex-1 p-0 pb-1 focus:border-2"
-                    value={newCardTitle || taskToBeShown?.title}
+                    className="border-0 shadow-none text-2xl text-zinc-700 dark:text-white font-semibold  w-full flex-1 p-0 pb-1 focus:border-2"
+                    value={newCardTitle} // || taskToBeShown?.title
                     onChange={(e) => setnewCardTitle(e.target.value)}
                     onBlur={handleupdateTaskTitle}
                   />
@@ -214,7 +210,7 @@ const CardModal = () => {
                 <div className="flex items-start gap-3 flex-1  ">
                   <TextAlignLeftIcon className="h-7 w-7 mt-5" />
                   <div className="flex flex-col gap-3 w-full flex-1 pt-5">
-                    <h1 className="text-xl text-gray-800 font-semibold">
+                    <h1 className="text-xl text-gray-800 font-semibold dark:text-white/90">
                       Description
                     </h1>
 
@@ -226,7 +222,10 @@ const CardModal = () => {
                       rows={6}
                       className={cn(
                         "resize-none focus:outline-none focus:ring-0 ring-0 outline-none border-none",
-                        !textaeraFocused ? "bg-[#E6E5E6]" : "bg-white"
+                        !textaeraFocused
+                          ? "bg-[#E6E5E6] dark:bg-zinc-800"
+                          : "bg-white dark:bg-black/80",
+                        ""
                       )}
                       placeholder="Add a more detailed description"
                     />
@@ -235,7 +234,7 @@ const CardModal = () => {
 
                 {/** actions */}
                 <div className="flex flex-col gap-3 mt-5 w-[25%]">
-                  <h2 className="text-lg font-semibold pl-1 text-gray-800">
+                  <h2 className="text-lg font-semibold pl-1 text-gray-800 dark:text-white/90">
                     Actions
                   </h2>
 
@@ -244,7 +243,7 @@ const CardModal = () => {
                     {loading?.copy ? (
                       <Button
                         disabled
-                        className="bg-gray-300 text-muted-foreground"
+                        className="bg-gray-300 text-muted-foreground dark:bg-zinc-800"
                       >
                         <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                         Copying
@@ -253,7 +252,7 @@ const CardModal = () => {
                       <Button
                         onClick={handleCopyTask}
                         variant={"outline"}
-                        className="flex items-center bg-[#E6E5E6] hover:bg-[#E6E5E6] hover:opacity-80 justify-start gap-3"
+                        className="flex items-center bg-[#E6E5E6] hover:bg-[#E6E5E6] dark:bg-zinc-800  hover:opacity-80 justify-start gap-3"
                       >
                         <CopyIcon className="w-5 h-5 text-sky-700" />
                         <span className="text-xl">Copy</span>
@@ -263,7 +262,7 @@ const CardModal = () => {
                     {loading?.delete ? (
                       <Button
                         disabled
-                        className="bg-gray-300 text-muted-foreground"
+                        className="bg-gray-300 text-muted-foreground dark:bg-zinc-800"
                       >
                         <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                         Deleting
@@ -272,7 +271,7 @@ const CardModal = () => {
                       <Button
                         onClick={handleDeleteTask}
                         variant={"secondary"}
-                        className="bg-[#E6E5E6] hover:bg-[#E6E5E6] hover:opacity-80 justify-start gap-3"
+                        className="bg-[#E6E5E6] dark:bg-zinc-800 hover:bg-[#E6E5E6] hover:opacity-80 justify-start gap-3"
                       >
                         <TrashIcon
                           className="w-5 h-5 text-red-500"
@@ -294,7 +293,7 @@ const CardModal = () => {
                       }}
                       size={"sm"}
                       variant={"default"}
-                      className="bg-sky-600 hover:bg-sky-700 w-[100px]"
+                      className="bg-sky-700 hover:bg-sky-600 w-[100px] dark:text-white"
                     >
                       Save
                     </Button>
@@ -305,7 +304,7 @@ const CardModal = () => {
                       }}
                       size={"sm"}
                       variant={"outline"}
-                      className="bg-gray-200 hover:bg-gray-200/90 w-[90px]"
+                      className="bg-gray-200 hover:bg-gray-200/90 w-[90px] dark:bg-zinc-800"
                     >
                       Cancel
                     </Button>

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineLogout } from "react-icons/ai";
@@ -12,8 +13,11 @@ import {
 import { logout } from "@/actions/auth/logout";
 import ProfileImageAvatar from "./profile-img-avatar";
 import { ProfileAvatarProps } from "@/schemas/common-schemas";
+import { useTheme } from "next-themes";
 
 const ProfileAvatar = ({ image, name, email }: ProfileAvatarProps) => {
+  const { theme } = useTheme();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="">
@@ -27,7 +31,13 @@ const ProfileAvatar = ({ image, name, email }: ProfileAvatarProps) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[270px] mr-[220px] space-y-2">
         <DropdownMenuLabel className="pb-0">{name}</DropdownMenuLabel>
-        <span className="text-slate-500 font-normal text-sm p-2">{email}</span>
+        <span
+          className={`${
+            theme == "dark" ? "text-slate-100" : "text-slate-500"
+          } font-normal text-sm p-2`}
+        >
+          {email}
+        </span>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer flex gap-2 font-medium my-1">
           <IoSettingsOutline />

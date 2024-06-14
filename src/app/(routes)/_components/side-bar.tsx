@@ -18,6 +18,7 @@ import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GoOrganization } from "react-icons/go";
 import { useActiveWorkspace } from "@/hooks/use-active-ws";
+import { useTheme } from "next-themes";
 
 const LayoutSidebar = ({
   className,
@@ -28,6 +29,7 @@ const LayoutSidebar = ({
   const user = useCurrentUser();
 
   const { data: allWorkSpaces, isLoading } = useCurrentWorkSpaces(user?.id!);
+  const { theme } = useTheme();
 
   return (
     <nav
@@ -59,7 +61,8 @@ const LayoutSidebar = ({
                 <AccordionTrigger
                   className={cn(
                     " hover:no-underline hover:bg-muted my-0 py-2 p-2 rounded-md  font-semibold ",
-                    currentWsId == Workspace?.id && "bg-gray-100"
+                    currentWsId == Workspace?.id &&
+                      (theme == "dark" ? "bg-slate-800" : "bg-gray-100") // ""
                   )}
                 >
                   <div className="flex items-center gap-4 w-full">
@@ -95,7 +98,11 @@ const LayoutSidebar = ({
                         key={index}
                         href={`/${Workspace.id}/${item.href}`}
                       >
-                        <div className="font-semibold text-black text-[15px]">
+                        <div
+                          className={`font-semibold ${
+                            theme == "dark" ? "text-white" : "text-black"
+                          } text-[15px]`}
+                        >
                           {item.icon}
                         </div>
                         <div className="">{item.title}</div>

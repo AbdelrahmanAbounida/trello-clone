@@ -59,7 +59,8 @@ export function TaskCard({
       style={style}
       className={variants({
         dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
-        className: "cursor-grab hover:opacity-75 opacity-100",
+        className:
+          "cursor-grab hover:opacity-75 opacity-100  dark:border-white/30",
       })}
       onClick={() => {
         setTaskTobeShow({ ...task, column });

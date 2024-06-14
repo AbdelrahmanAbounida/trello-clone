@@ -48,7 +48,7 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
   };
 
   const variants = cva(
-    "  bg-[#F3F2F5] w-[350px] max-h-full h-auto flex flex-col flex-shrink-0 snap-center", //  bg-primary-foreground
+    "  bg-[#F3F2F5] dark:bg-[#000] w-[350px] max-h-full h-auto flex flex-col flex-shrink-0 snap-center", //  bg-primary-foreground
     {
       variants: {
         dragging: {
@@ -65,6 +65,9 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
 
   const handleupdateColtitle = async () => {
     try {
+      if (newcolTitle == column.title) {
+        return;
+      }
       const res = await renameCol({ colId: column.id, newtitle: newcolTitle });
 
       if (res?.error) {

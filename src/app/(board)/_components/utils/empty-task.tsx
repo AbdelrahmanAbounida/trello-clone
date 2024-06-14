@@ -67,7 +67,7 @@ const EmptyTask = ({
             value={newTaskName}
             disabled={createLoading}
             onChange={(e) => setnewTaskName(e.target.value)}
-            className="focus:border-gray-400 bg-white  items-start w-full h-[100px]  text-wrap overflow-clip justify-start flex border "
+            className="focus:border-gray-400 bg-white dark:bg-zinc-900  items-start w-full h-[100px]  text-wrap overflow-clip justify-start flex border "
             placeholder="Enter list title..."
           />
 
@@ -81,7 +81,7 @@ const EmptyTask = ({
               <Button
                 onClick={createTaskCard}
                 variant={"default"}
-                className="bg-sky-600 w-[130px] hover:bg-sky-700"
+                className="bg-sky-600 w-[130px] hover:bg-sky-700 dark:text-white"
               >
                 Add list
               </Button>
@@ -102,7 +102,7 @@ const EmptyTask = ({
       ) : (
         <div
           onClick={() => setshowAddTask(true)}
-          className="text-gray-500 text-md font-semibold flex items-center gap-3 py-3 cursor-pointer hover:bg-gray-200 rounded-lg p-2"
+          className="text-gray-500 text-md font-semibold flex items-center gap-3 py-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-zinc-900 rounded-lg p-2"
         >
           <PlusIcon className="w-5 h-5 text-gray-500" />
           <span>Add a card</span>

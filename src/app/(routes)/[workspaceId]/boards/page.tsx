@@ -10,13 +10,10 @@ import { LuUser2 } from "react-icons/lu";
 import { useActiveWorkspace } from "@/hooks/use-active-ws";
 import BoardModal from "@/components/modals/board-modal";
 import Link from "next/link";
+import WorkshopHeader from "../../_components/workshop-header";
+import { WorkspacePageParams } from "@/schemas/workspace-schema";
 
 // this page only in case of empty workspaces
-interface WorkspacePageParams {
-  params: {
-    workspaceId: string;
-  };
-}
 
 const WorkspaceBoards = ({ params }: WorkspacePageParams) => {
   const { data: boards, isLoading } = useCurrentBoards(params.workspaceId);
@@ -39,28 +36,8 @@ const WorkspaceBoards = ({ params }: WorkspacePageParams) => {
       {/** Empty state with no boards  */}
       {!isLoading && !WsLoading && (
         <div className="h-full w-full flex flex-col items-start p-2  rounded-md">
-          {/** title */}
-          <div className="flex items-center justify-start gap-4 p-1">
-            {/** Logo */}
-            {currentWorkspace?.logo ? (
-              <img
-                src={currentWorkspace?.logo}
-                className="w-[50px] h-[50px] text-sky-700"
-              />
-            ) : (
-              <GoOrganization size={70} className="text-sky-700" />
-            )}
-            {/** name */}
-            <div className="flex flex-col gap-1">
-              <h1 className="text-2xl font-semibold">
-                {currentWorkspace?.name}
-              </h1>
-              {/** ::TODO:: add workspace status  */}
-              <p className="text-muted-foreground text-md">Free</p>
-            </div>
-          </div>
-
-          <Separator className="w-full mt-3" />
+          {/** Navbar */}
+          <WorkshopHeader currentWorkspace={currentWorkspace!} />
 
           {/** boards list */}
           <div className="flex flex-col my-4 mt-7 w-full">

@@ -1,5 +1,4 @@
 import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineLogout } from "react-icons/ai";
 import {
@@ -10,25 +9,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
 import { logout } from "@/actions/auth/logout";
-
-interface ProfileAvatarProps {
-  image: string;
-  name: string;
-  email: string;
-}
+import ProfileImageAvatar from "./profile-img-avatar";
+import { ProfileAvatarProps } from "@/schemas/common-schemas";
 
 const ProfileAvatar = ({ image, name, email }: ProfileAvatarProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="">
-        <Avatar className="bg-sky-100">
+        {/* <Avatar className="bg-sky-100">
           <AvatarImage src={image} />
           <AvatarFallback className={cn(!image && "bg-sky-600 text-white")}>
             {name ? name?.slice(0, 2) : email?.slice(0, 2)}
           </AvatarFallback>
-        </Avatar>
+        </Avatar> */}
+        <ProfileImageAvatar profileProps={{ name, email, image }} />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[270px] mr-[220px] space-y-2">
         <DropdownMenuLabel className="pb-0">{name}</DropdownMenuLabel>

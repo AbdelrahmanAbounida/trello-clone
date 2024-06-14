@@ -143,6 +143,7 @@ const WorkspaceModal = ({
         setloading(false);
         onClose();
         toast.success("Workspace has been created successfully");
+        router.refresh();
       }
       setloading(false);
     } catch (error) {

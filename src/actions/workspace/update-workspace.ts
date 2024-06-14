@@ -1,5 +1,4 @@
 "use server";
-
 import { prismadb } from "@/lib/db";
 import { ActionResponse } from "@/schemas/action-resp";
 import { createActivity } from "../activity/create-activity";
@@ -12,6 +11,9 @@ export const renameWorkspace = async ({
   newName: string;
 }): Promise<ActionResponse> => {
   try {
+    if (!workspaceId) {
+      return { error: true, details: "workspaceid shouldn't be none " };
+    }
     const updatedWs = await prismadb.workspace.update({
       where: {
         id: workspaceId,

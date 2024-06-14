@@ -86,7 +86,7 @@ model UserSOnWorkspace {
 model Board {
   id  String  @id @default(auto()) @map("_id")  @db.ObjectId
   workspaceId String @db.ObjectId 
-  workspace Workspace @relation(fields: [workspaceId], references: [id])
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   title String 
   is_public Boolean 
   backgroundImage String?
@@ -98,7 +98,7 @@ model Board {
 model Column {
   id  String  @id @default(auto()) @map("_id")  @db.ObjectId
   boardId String @db.ObjectId
-  board Board @relation(fields: [boardId],references: [id])
+  board Board @relation(fields: [boardId],references: [id], onDelete: Cascade)
   title String 
   position Int @default(0)
   tasks Task[] 
@@ -112,7 +112,7 @@ model Task {
   description String?
   position Int
   columnId String @db.ObjectId
-  column Column @relation(fields: [columnId],references: [id])
+  column Column @relation(fields: [columnId],references: [id], onDelete: Cascade)
   comments Comment[] 
   activities TaskActivity[] 
   createdAt DateTime @default(now())
@@ -123,8 +123,8 @@ model Comment {
   id  String  @id @default(auto()) @map("_id")  @db.ObjectId
   userId String @db.ObjectId
   taskId String @db.ObjectId 
-  user User @relation(fields: [userId], references: [id])
-  task Task @relation(fields: [taskId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
   content String 
   createdAt DateTime @default(now())
 }
@@ -133,7 +133,7 @@ model Activity {
   id  String  @id @default(auto()) @map("_id")  @db.ObjectId
   content String 
   workspaceId String @db.ObjectId  
-  workspace Workspace @relation(fields: [workspaceId], references: [id])
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 }
 

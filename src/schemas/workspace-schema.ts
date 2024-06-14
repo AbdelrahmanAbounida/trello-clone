@@ -10,3 +10,9 @@ export const createWorkspaceSchema = z.object({
     .optional(),
 });
 export type createWorkspaceSchemaType = z.infer<typeof createWorkspaceSchema>;
+
+export interface WorkspacePageParams {
+  params: {
+    workspaceId: string;
+  };
+}

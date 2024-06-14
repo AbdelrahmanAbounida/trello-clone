@@ -33,6 +33,10 @@ import { renameTask, updateTaskDescription } from "@/actions/task/update-task";
 import { Skeleton } from "../ui/skeleton";
 import { Activity } from "@prisma/client";
 import { getTaskActivities } from "@/actions/activity/get-activity";
+import { isValidDate } from "@/lib/format";
+import { useTaskActivities } from "@/hooks/use-current-activities";
+import ProfileImageAvatar from "@/app/(routes)/_components/profile-img-avatar";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 const CardModal = () => {
   const { taskToBeShown, setTaskTobeShow } = useCurrentBoard();
@@ -48,13 +52,16 @@ const CardModal = () => {
     task: true,
   });
 
-  const [taskActivities, settaskActivities] = useState<Activity[]>([]);
-
+  // const [taskActivities, settaskActivities] = useState<Activity[]>([]);
+  const {
+    data: taskActivities,
+    isLoading,
+  }: { data: Activity[]; isLoading: boolean } = useTaskActivities(
+    taskToBeShown?.id!,
+    taskToBeShown?.columnId!
+  );
+  const user = useCurrentUser();
   const router = useRouter();
-
-  function isValidDate(date: Date) {
-    return date instanceof Date && !isNaN(date.getTime());
-  }
 
   const handleCopyTask = async () => {
     try {
@@ -140,22 +147,22 @@ const CardModal = () => {
     }
   };
 
-  const updateCurrentActivities = async () => {
-    try {
-      const resp = await getTaskActivities({
-        taskId: taskToBeShown?.id!,
-        columnId: taskToBeShown?.columnId,
-      });
-      if (resp?.error) {
-        toast.error(resp.details);
-      } else {
-        settaskActivities(resp.details);
-      }
-    } catch (error) {
-      console.log({ error });
-      toast.error("Something went wrong");
-    }
-  };
+  // const updateCurrentActivities = async () => {
+  //   try {
+  //     const resp = await getTaskActivities({
+  //       taskId: taskToBeShown?.id!,
+  //       columnId: taskToBeShown?.columnId,
+  //     });
+  //     if (resp?.error) {
+  //       toast.error(resp.details);
+  //     } else {
+  //       settaskActivities(resp.details);
+  //     }
+  //   } catch (error) {
+  //     console.log({ error });
+  //     toast.error("Something went wrong");
+  //   }
+  // };
 
   useEffect(() => {
     if (taskToBeShown) {
@@ -163,7 +170,7 @@ const CardModal = () => {
       setcurrentDescription(taskToBeShown?.description!);
       setnewCardTitle(taskToBeShown?.title!);
     }
-    updateCurrentActivities();
+    // updateCurrentActivities();
   }, [taskToBeShown]);
 
   return (
@@ -317,34 +324,36 @@ const CardModal = () => {
               <div className="p-2 pl-9">
                 {/** loop over activities */}
 
-                {taskActivities?.map((activity, index) => (
-                  <div key={index} className="flex flex-col gap-3">
-                    <div className="flex items-center gap-4">
-                      <div className="rounded-full bg-purple-800 text-white h-[50px] w-[50px] flex items-center justify-center font-semibold text-lg">
-                        A
-                      </div>
-
-                      <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-1">
+                {!isLoading &&
+                  taskActivities?.map((activity, index) => (
+                    <div key={index} className="flex items-center gap-4  ">
+                      {/** avatar */}
+                      <ProfileImageAvatar
+                        profileProps={{
+                          name: user?.name!,
+                          email: user?.email!,
+                          image: user?.image!,
+                        }}
+                      />
+                      {/** main content */}
+                      <div className="flex flex-col gap-1 ">
+                        <div className="flex items-center gap-1 w-full">
                           <span className="font-semibold">
-                            Abdelrahman Aboneda
+                            {user?.name || user?.email}
                           </span>
-                          <span className="text-gray-500">
-                            updated card "rename card"
+                          <span className="text-gray-500  ">
+                            {activity?.content}
                           </span>
                         </div>
                         <div className="text-gray-500/80">
-                          {/* {formatRelative(taskToBeShown?.createdAt!, new Date())} */}
-                          {isValidDate(taskToBeShown?.createdAt!) &&
-                            formatRelative(
-                              taskToBeShown?.createdAt!,
-                              new Date()
-                            )}
+                          {isValidDate(activity?.createdAt!) &&
+                            formatRelative(activity?.createdAt!, new Date())}
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+
+                {isLoading && <ActivityLoading />}
               </div>
             </div>
           </>
@@ -400,5 +409,26 @@ const DialogLoading = () => (
       <Skeleton className="w-2/4 h-[20px]" />
     </div>
     {/** ::TODO:: */}
+  </div>
+);
+
+export const ActivityLoading = () => (
+  <div className="flex flex-col gap-3 w-full">
+    {[1, 2].map((ac, index) => (
+      <div key={index} className="flex flex-col gap-3">
+        <div className="flex items-center gap-4">
+          <Skeleton className="w-[50px] h-[50px] rounded-full" />
+
+          <div className="flex flex-col gap-2 w-full">
+            <div className="flex items-center gap-1 ">
+              <Skeleton className="h-[20px] w-2/4" />
+            </div>
+            <div className="text-gray-500/80">
+              <Skeleton className="h-[15px] w-[100px]" />
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
   </div>
 );

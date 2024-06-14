@@ -3,6 +3,7 @@
 import { prismadb } from "@/lib/db";
 import { ActionResponse } from "@/schemas/action-resp";
 import { createActivity } from "../activity/create-activity";
+import { deleteWorkspaceActivities } from "../activity/delete-activity";
 
 export const deleteWorkspace = async ({
   workspaceId,
@@ -10,18 +11,22 @@ export const deleteWorkspace = async ({
   workspaceId: string;
 }): Promise<ActionResponse> => {
   try {
+    if (!workspaceId) {
+      return { error: false, details: "" };
+    }
+    // delete all workspace activities
+    const res = await deleteWorkspaceActivities({ workspaceId });
+
+    if (res?.error) {
+      return res;
+    }
+
+    // delete workspace
     const deletedWs = await prismadb.workspace.delete({
       where: {
         id: workspaceId,
       },
     });
-
-    // create new act
-    // await createActivity({
-    //     workspaceId,
-    //     content: `deleted workspace "${deletedWs.name}"`,
-    //   });
-
     return { error: false, details: null };
   } catch (error) {
     console.log({ error });

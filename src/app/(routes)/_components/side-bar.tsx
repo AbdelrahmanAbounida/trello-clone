@@ -137,16 +137,14 @@ const SidebarSkeleton = () => (
   >
     <div className="flex flex-col gap-8">
       {[1, 2].map((it, idx) => (
-        <>
-          <div className="gap-2 flex flex-col">
-            <Skeleton className="w-full h-[20px]" />
-            <div className="flex flex-col gap-3">
-              {[1, 2, 3, 4].map((item, index) => (
-                <Skeleton className="w-full h-[35px]" key={index} />
-              ))}
-            </div>
+        <div key={idx} className="gap-2 flex flex-col">
+          <Skeleton className="w-full h-[20px]" />
+          <div className="flex flex-col gap-3">
+            {[1, 2, 3, 4].map((item, index) => (
+              <Skeleton className="w-full h-[35px]" key={index} />
+            ))}
           </div>
-        </>
+        </div>
       ))}
     </div>
   </motion.div>

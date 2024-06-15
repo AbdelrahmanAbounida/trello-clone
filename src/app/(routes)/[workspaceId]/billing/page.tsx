@@ -10,6 +10,8 @@ import BoardModal from "@/components/modals/board-modal";
 import Link from "next/link";
 import WorkshopHeader from "../../_components/workshop-header";
 import { WorkspacePageParams } from "@/schemas/workspace-schema";
+import BillingModal from "@/components/modals/billing-modal";
+import { useWSSubscription } from "@/hooks/use-ws-subscription";
 
 const BillingWorkspace = ({ params }: WorkspacePageParams) => {
   const { data: boards, isLoading } = useCurrentBoards(params.workspaceId);
@@ -17,6 +19,8 @@ const BillingWorkspace = ({ params }: WorkspacePageParams) => {
   const { data: currentWorkspace, isLoading: WsLoading } = useSpecificWorkspace(
     params.workspaceId
   );
+
+  const { data: isSubsripted } = useWSSubscription(params?.workspaceId);
 
   useEffect(() => {
     if (!WsLoading && !currentWorkspace) {
@@ -30,8 +34,15 @@ const BillingWorkspace = ({ params }: WorkspacePageParams) => {
       {/** Loading State  */}
       {(WsLoading || isLoading) && <WorkSpacesLoading />}
       {/** Empty state with no boards  */}
-      TODO: Billing Modal
-      {/** List of boards */}
+
+      {/** check if workspace is subscriped  */}
+      {isSubsripted ? (
+        <div className="p-3 flex items-center bg-sky-100 dark:bg-slate-800 text-sky-700 dark:text-white/80 rounded-lg max-w-3xl mx-auto text-center justify-center font-semibold">
+          You are currently subscriped
+        </div>
+      ) : (
+        <BillingModal workspaceId={params?.workspaceId} />
+      )}
     </div>
   );
 };

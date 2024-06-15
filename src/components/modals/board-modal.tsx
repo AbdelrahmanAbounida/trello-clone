@@ -28,12 +28,13 @@ import {
 } from "@/schemas/board-schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createNewBoard } from "@/actions/board/create-board";
-import toast from "react-hot-toast";
+
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { uploadBoardImage } from "@/lib/s3";
 import { useRouter } from "next/navigation";
 import { useActiveWorkspace } from "@/hooks/use-active-ws";
 import { useTheme } from "next-themes";
+import { toast } from "sonner";
 
 const computeSHA256 = async (file: File) => {
   const buffer = await file.arrayBuffer();

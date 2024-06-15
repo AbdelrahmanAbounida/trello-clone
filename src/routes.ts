@@ -7,7 +7,7 @@ export const PROTECTED_ROUTES = ["/"];
  * Those are the protected routes that should be available for any user
  * @type {String[]}
  */
-export const PUBLIC_ROUTES: string[] = [];
+export const PUBLIC_ROUTES: string[] = ["/", "/api/webhook"];
 
 /**
  * those are authentication routes

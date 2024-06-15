@@ -23,6 +23,26 @@ export const deleteBoard = async ({
         id: boardId,
       },
     });
+    // decrease limit
+    let wsLimit = await prismadb.workspaceLimit.findUnique({
+      where: {
+        workspaceId: deletedBoard?.workspaceId,
+      },
+    });
+
+    await prismadb.workspaceLimit.upsert({
+      where: {
+        workspaceId: deletedBoard?.workspaceId,
+      },
+      update: {
+        count: wsLimit && wsLimit?.count! > 0 ? wsLimit?.count! - 1 : 0,
+      },
+      create: {
+        workspaceId: deletedBoard?.workspaceId!,
+        count: wsLimit && wsLimit?.count > 0 ? wsLimit?.count! - 1 : 0,
+      },
+    });
+
     // create new act
     await createActivity({
       workspaceId: deletedBoard.workspaceId,

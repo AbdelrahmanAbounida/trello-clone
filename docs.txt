@@ -1,0 +1,92 @@
+# ******************************
+# Stripe 
+# ******************************
+
+0- Setup and installation 
+-----------------------------------------------------------
+>> npm i stripe 
+>> get stripe secret key 
+>> create .env 
+STRIPE_PUBLISHED_KEY=<your_stripe_published_key>
+STRIPE_SECRET_KEY=<your_stripe_secret_key>
+STRIPE_WEBHOOK_SECRET=<your_stripe_webhook_secret>
+-----------------------------------------------------------
+
+
+1- create stripe models in prisma schema 
+-----------------------------------------------------------
+model workspaceSubscription { // subscription per workspace
+  id  String  @id @default(auto()) @map("_id")  @db.ObjectId
+  workspaceId String @db.ObjectId
+
+  stripeCustomerId String @db.ObjectId @map(name: "stripe_customer_id")
+  stripeSubscriptionId String? @unique @map(name: "stripe_subscription_id")
+  stripePriceId   String? @map(name: "stripe_price_id")
+  stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([stripeCustomerId, workspaceId])
+  @@index([workspaceId])
+}
+-----------------------------------------------------------
+
+
+2- create stripe client in @/lib/stripe 
+-----------------------------------------------------------
+import Stripe from "stripe";
+
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2024-04-10",
+  typescript: true,
+});
+
+// add this util in @lib/utils 
+export const absolutePath = (path:string)=>{
+  return `${process.env.NEXT_PUBLIC_APP_URL}/${path}`
+}
+-----------------------------------------------------------
+3- create subscription helper methods in @lib/subscription.ts 
+const DAY_IN_MS = 24 * 60 * 60 * 1000;
+
+export const checkSubscription = async ({
+  workspaceId,
+}: {
+  workspaceId: string;
+}): Promise<Boolean> => {
+  const ws_sub = await prismadb.workspaceSubscription.findUnique({
+    where: {
+      workspaceId,
+    },
+  });
+
+  if (!ws_sub) {
+    return false;
+  }
+
+  const isValid =
+    ws_sub.stripePriceId &&
+    ws_sub.stripeCurrentPeriodEnd?.getTime()! + DAY_IN_MS > Date.now();
+  return !!isValid;
+};
+-----------------------------------------------------------
+3- create stripe checkout session in @/actions/stripe
+
+createSubscriptionSession, validateSubscriptions
+
+-----------------------------------------------------------
+
+4- create stripe webhook to handle payment/subscription (@/app/api/webhook/route.ts)
+
+>> check STRIPE_WEBHOOK_SECRET in .env 
+-----------------------------------------------------------
+
+5- run webhook locally (get webhook secret by running )
+>> stripe login 
+>> stripe listen --forward-to localhost:3000/api/webhook
+
+acct_1PRrayE0d0NSfLAm
+joyful-quaint-awards-work
+-----------------------------------------------------------
+6- deploy 

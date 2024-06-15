@@ -2,6 +2,7 @@
 import { ActionResponse } from "@/schemas/action-resp";
 import { prismadb } from "@/lib/db";
 import { createActivity } from "../activity/create-activity";
+import { MAX_WORKSPACE_LIMIT } from "@/constants/payment";
 
 export const createNewWorkSpace = async ({
   userId,
@@ -32,6 +33,28 @@ export const createNewWorkSpace = async ({
       };
     }
 
+    // let userLimit = await prismadb.userLimit.findUnique({
+    //   where: {
+    //     userId,
+    //   },
+    // });
+    // if (!userLimit) {
+    //   userLimit = await prismadb.userLimit.create({
+    //     data: {
+    //       userId,
+    //       count: 0,
+    //     },
+    //   });
+    // }
+
+    // if (userLimit.count >= MAX_WORKSPACE_LIMIT) {
+    //   return {
+    //     error: true,
+    //     details:
+    //       "You have reached the max limit. please upgrade to create more",
+    //   };
+    // }
+
     // 2- create new workspace
     const newWs = await prismadb.workspace.create({
       data: {
@@ -39,6 +62,15 @@ export const createNewWorkSpace = async ({
         name,
       },
     });
+
+    // await prismadb.userLimit.update({
+    //   where: {
+    //     userId,
+    //   },
+    //   data: {
+    //     count: userLimit.count + 1,
+    //   },
+    // });
 
     // create activity
     await createActivity({

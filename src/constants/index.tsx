@@ -1,14 +1,7 @@
-import { ReactElement } from "react";
-import { IconType } from "react-icons";
-import { BsGear, BsGrid1X2, BsHeartPulse, BsList } from "react-icons/bs";
+import { SidebarItem } from "@/schemas/common-schemas";
+import { BsGear, BsGrid1X2 } from "react-icons/bs";
 import { CiMoneyBill } from "react-icons/ci";
 import { GoPulse } from "react-icons/go";
-
-export interface SidebarItem {
-  title: string;
-  href: string;
-  icon: ReactElement<IconType>;
-}
 
 export const SidenavbarItems: SidebarItem[] = [
   {

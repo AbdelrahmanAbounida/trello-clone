@@ -6,6 +6,8 @@ import { createActivity } from "../activity/create-activity";
 import { createBoardSchema } from "@/schemas/board-schemas";
 import { z } from "zod";
 import { getBoardbyId } from "./get-board";
+import { MAX_BOARDS_LIMIT } from "@/constants/payment";
+import { validateSubscription } from "../stripe";
 
 const CreateNewBoardPropsSchema = createBoardSchema
   .extend({
@@ -40,12 +42,55 @@ export const createNewBoard = async ({
     // 2- upload image to s3
     //   const imageUrl = await uploadImageToS3(imageFile);
 
+    // check limit
+    let wsLimit = await prismadb.workspaceLimit.findUnique({
+      where: {
+        workspaceId,
+      },
+    });
+    if (!wsLimit) {
+      wsLimit = await prismadb.workspaceLimit.create({
+        data: {
+          workspaceId,
+          count: 0,
+        },
+      });
+    }
+
+    if (wsLimit.count >= MAX_BOARDS_LIMIT) {
+      // check payment
+      const sub = await prismadb.workspaceSubscription.findUnique({
+        where: {
+          workspaceId,
+        },
+      });
+      const isValid = await validateSubscription({ workspaceId });
+      console.log({ isValid });
+      if (!isValid) {
+        return {
+          error: true,
+          details:
+            "You have reached the max limit. please upgrade to create more",
+        };
+      }
+    }
+
     // Create new board
     const newCreatedBoard = await prismadb.board.create({
       data: {
         is_public: isPublic,
         title,
         workspaceId,
+      },
+    });
+
+    // update limit
+    await prismadb.workspaceLimit.update({
+      where: {
+        workspaceId,
+      },
+      data: {
+        count: wsLimit.count + 1,
       },
     });
 
@@ -73,7 +118,21 @@ export const copyBoard = async ({
   try {
     const board = await getBoardbyId({ boardId });
     if (!board) {
-      return { error: true, details: "board not found " };
+      return { error: true, details: "board not found" };
+    }
+    // check limit
+    let wsLimit = await prismadb.workspaceLimit.findUnique({
+      where: {
+        workspaceId: board?.workspaceId,
+      },
+    });
+
+    if (wsLimit?.count! >= MAX_BOARDS_LIMIT) {
+      return {
+        error: true,
+        details:
+          "You have reached the max limit. please upgrade to create more",
+      };
     }
 
     // Copy the board
@@ -83,6 +142,16 @@ export const copyBoard = async ({
         is_public: board.is_public,
         backgroundImage: board.backgroundImage,
         workspaceId: board.workspaceId,
+      },
+    });
+
+    // update limit
+    await prismadb.workspaceLimit.update({
+      where: {
+        workspaceId: newBoard?.workspaceId,
+      },
+      data: {
+        count: wsLimit?.count! + 1,
       },
     });
 

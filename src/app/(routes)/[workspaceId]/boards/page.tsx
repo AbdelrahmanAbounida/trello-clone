@@ -12,6 +12,8 @@ import BoardModal from "@/components/modals/board-modal";
 import Link from "next/link";
 import WorkshopHeader from "../../_components/workshop-header";
 import { WorkspacePageParams } from "@/schemas/workspace-schema";
+import { MAX_BOARDS_LIMIT } from "@/constants/payment";
+import { useWSSubscription } from "@/hooks/use-ws-subscription";
 
 // this page only in case of empty workspaces
 
@@ -20,6 +22,9 @@ const WorkspaceBoards = ({ params }: WorkspacePageParams) => {
   const { setActiveWs } = useActiveWorkspace();
   const { data: currentWorkspace, isLoading: WsLoading } = useSpecificWorkspace(
     params.workspaceId
+  );
+  const { data: isSubscribed, isLoading: subLoading } = useWSSubscription(
+    params?.workspaceId
   );
 
   useEffect(() => {
@@ -66,8 +71,21 @@ const WorkspaceBoards = ({ params }: WorkspacePageParams) => {
                   >
                     <p className="text-lg">Create New Board</p>
 
-                    {/** ::TODO:: Handle max num of boards */}
-                    <p className="text-sm">1 remaining</p>
+                    {!subLoading && !isSubscribed && (
+                      <p className="text-sm">
+                        {MAX_BOARDS_LIMIT - boards?.length!} remaining
+                      </p>
+                    )}
+                  </div>
+                </BoardModal>
+              )}
+
+              {boards?.length! > 5 && !subLoading && isSubscribed && (
+                <BoardModal>
+                  <div
+                    className={`w-[230px] h-[120px] cursor-pointer rounded-lg active:scale-[0.99] scale-100 bg-gray-100 hover:bg-gray-200/70 dark:bg-zinc-900 dark:hover:bg-zinc-900/80 text-black flex dark:text-white/80 flex-col items-center justify-center relative`}
+                  >
+                    <p className="text-lg">Create New Board</p>
                   </div>
                 </BoardModal>
               )}

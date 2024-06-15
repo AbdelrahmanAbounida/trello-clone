@@ -36,13 +36,15 @@ const BillingWorkspace = ({ params }: WorkspacePageParams) => {
       {/** Empty state with no boards  */}
 
       {/** check if workspace is subscriped  */}
-      {isSubsripted ? (
-        <div className="p-3 flex items-center bg-sky-100 dark:bg-slate-800 text-sky-700 dark:text-white/80 rounded-lg max-w-3xl mx-auto text-center justify-center font-semibold">
+      {/* {isSubsripted && (
+        <div className="p-3 flex items-start bg-sky-100 dark:bg-slate-800 text-sky-700 dark:text-white/80 rounded-lg max-w-3xl mr-auto text-center justify-center font-semibold">
           You are currently subscriped
         </div>
-      ) : (
+      )} */}
+
+      <div className=" mt-4">
         <BillingModal workspaceId={params?.workspaceId} />
-      )}
+      </div>
     </div>
   );
 };

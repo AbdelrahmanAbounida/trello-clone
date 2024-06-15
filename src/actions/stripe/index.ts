@@ -15,8 +15,6 @@ export const validateSubscription = async ({
     },
   });
 
-  console.log({ ws_sub });
-
   if (!ws_sub) {
     return false;
   }

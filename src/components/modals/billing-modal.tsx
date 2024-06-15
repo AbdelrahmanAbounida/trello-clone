@@ -12,9 +12,13 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { createSubscriptionSession } from "@/actions/stripe/create-session";
+import { useWSSubscription } from "@/hooks/use-ws-subscription";
 
 const BillingModal = ({ workspaceId }: { workspaceId: string }) => {
   const [loading, setloading] = useState(false);
+  const { data: isSubscribed, isLoading: subLoading } =
+    useWSSubscription(workspaceId);
+
   const handleSubscription = async () => {
     try {
       setloading(true);
@@ -41,7 +45,7 @@ const BillingModal = ({ workspaceId }: { workspaceId: string }) => {
           variant={"secondary"}
           className="bg-sky-700 w-[210px] hover:bg-sky-600 text-white  transition-transform transform scale-100 active:scale-[0.97]"
         >
-          Upgrade
+          {!subLoading && (isSubscribed ? "Manage Subscription" : "Upgrade")}
         </Button>
       </DialogTrigger>
 
@@ -51,8 +55,11 @@ const BillingModal = ({ workspaceId }: { workspaceId: string }) => {
           <img className="w-full h-72" src="/assets/payment.jpg" />
         </DialogHeader>
 
-        <DialogTitle className="p-0  w-full flex text-2xl text-left items-center justify-left dark:text-white text-zinc-800">
-          Upgrade to Trellofy Pro Today!
+        <DialogTitle className="p-0 mt-3  w-full flex text-2xl text-left items-center justify-left dark:text-white text-zinc-800">
+          {!subLoading &&
+            (isSubscribed
+              ? "Mange Your subscription"
+              : "Upgrade to Trellofy Pro Today!")}
         </DialogTitle>
         <DialogDescription className="text-left p-0 ">
           Explore the best of Trellofy
@@ -70,7 +77,7 @@ const BillingModal = ({ workspaceId }: { workspaceId: string }) => {
             disabled={loading}
             className="w-3/4 bg-sky-700 hover:bg-sky-600 transition-all hover:opaciyt-90 opacity-100"
           >
-            Upgrade
+            {!subLoading && (isSubscribed ? "Manage Subscription" : "Upgrade")}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -32,11 +32,15 @@ export const createSubscriptionSession = async ({
 
     // if we already have a subscription
     if (wsSubscription && wsSubscription.stripeCustomerId) {
+      console.log({ wsSubscription });
+
       const stripe_session = await stripe.billingPortal.sessions.create({
         customer: wsSubscription.stripeCustomerId,
         return_url: returnUrl,
       });
       url = stripe_session.url;
+
+      console.log({ stripe_session });
     } else {
       // create new subscription with session
       const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [

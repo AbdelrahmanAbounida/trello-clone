@@ -36,7 +36,8 @@ export async function POST(req: Request) {
       const newWssub = await prismadb.workspaceSubscription.create({
         data: {
           workspaceId,
-          stripeCustomerId: (subscription.customer as Stripe.Customer).id,
+          // stripeCustomerId: (subscription.customer as Stripe.Customer).id,
+          stripeCustomerId: subscription.customer as string,
           stripeSubscriptionId: subscription.id,
           stripePriceId: subscription.items.data[0].price.id,
           stripeCurrentPeriodEnd: new Date(
@@ -44,6 +45,8 @@ export async function POST(req: Request) {
           ),
         },
       });
+
+      console.log({ newWssub });
     }
 
     // monthly pay

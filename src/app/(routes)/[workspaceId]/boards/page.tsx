@@ -71,11 +71,14 @@ const WorkspaceBoards = ({ params }: WorkspacePageParams) => {
                   >
                     <p className="text-lg">Create New Board</p>
 
-                    {!subLoading && !isSubscribed && (
-                      <p className="text-sm">
-                        {MAX_BOARDS_LIMIT - boards?.length!} remaining
-                      </p>
-                    )}
+                    {!subLoading &&
+                      (!isSubscribed ? (
+                        <p className="text-sm">
+                          {MAX_BOARDS_LIMIT - boards?.length!} remaining
+                        </p>
+                      ) : (
+                        <p className="text-sm">unlimited</p>
+                      ))}
                   </div>
                 </BoardModal>
               )}

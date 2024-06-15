@@ -1,4 +1,6 @@
+"use client";
 import { Separator } from "@/components/ui/separator";
+import { useWSSubscription } from "@/hooks/use-ws-subscription";
 import { Workspace } from "@prisma/client";
 import React from "react";
 import { GoOrganization } from "react-icons/go";
@@ -8,6 +10,10 @@ const WorkshopHeader = ({
 }: {
   currentWorkspace?: Workspace;
 }) => {
+  const { data: isSubscribed, isLoading: subLoading } = useWSSubscription(
+    currentWorkspace?.id!
+  );
+
   return (
     <div>
       <div className="flex items-center justify-start gap-4 p-1">
@@ -24,7 +30,9 @@ const WorkshopHeader = ({
         <div className="flex flex-col gap-1">
           <h1 className="text-2xl font-semibold">{currentWorkspace?.name}</h1>
           {/** ::TODO:: add workspace status  */}
-          <p className="text-muted-foreground text-md">Free</p>
+          <p className="text-muted-foreground text-md">
+            {!subLoading && (isSubscribed ? "Pro" : "Free")}
+          </p>
         </div>
       </div>
       <Separator className="w-full mt-3" />

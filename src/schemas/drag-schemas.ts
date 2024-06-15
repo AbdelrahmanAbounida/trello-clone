@@ -2,7 +2,7 @@
 // Task Card
 // ************************
 
-import { Activity, Column, Task } from "@prisma/client";
+import { Column, Task } from "@prisma/client";
 
 export interface TaskCardProps {
   task: Task;

@@ -98,3 +98,9 @@ https://dashboard.stripe.com/test/settings/billing/portal
 https://dashboard.stripe.com/test/webhooks
 
 >> add vercel url 
+
+
+select events 
+(invoice payment successed, checkout.session.completed)
+
+>> copy webhook secret and add to .env vercel 

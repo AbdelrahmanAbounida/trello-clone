@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <main
       className={cn(
-        `first-letter:h-full flex-col w-full flex items-center justify-start pt-12 text-lg ${
+        `first-letter:h-full flex-col w-full h-screen flex items-center justify-start pt-12 text-lg ${
           theme == "dark" ? "bg-black" : "bg-slate-100"
         }`
       )}

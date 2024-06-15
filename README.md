@@ -9,10 +9,9 @@
 ![NextAuth.js](https://img.shields.io/badge/NextAuth.js-000000?logo=next.js&logoColor=whitelabelColor=000000)
 ![SWR](https://img.shields.io/badge/SWR-FF6347?logo=vercel&logoColor=whitelabelColor=FF6347)
 
-
 # Database Design (ERD)
-<img src="public/Trello.png" alt="ERD">
 
+<img src="public/Trello.png" alt="ERD">
 
 ## Technologies Used
 
@@ -43,7 +42,7 @@ GOOGLE_CLIENT_SECRET=<your_google_client_secret>
 
 # AWS S3
 AWS_BUCKET_REGIONN=
-AWS_ACCESS_KEY=
+AWS_S3_ACCESS_KEY=
 AWS_SECRET_ACCESS_KEY=
 AWS_BUCKET_NAMEE=
 

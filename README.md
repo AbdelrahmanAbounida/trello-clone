@@ -2,10 +2,16 @@
 
 ![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=whitelabelColor=000000)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?logo=react&logoColor=%2361DAFB)
+![Tailwind CSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?logo=tailwind-css&logoColor=white)
 ![Prisma ORM](https://img.shields.io/badge/Prisma%20ORM-2D3748?logo=prisma&logoColor=whitelabelColor=2D3748)
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?logo=mongodb&logoColor=white)
+![Stripe](https://img.shields.io/badge/Stripe-%23635bfe.svg?logo=stripe&logoColor=white)
 ![NextAuth.js](https://img.shields.io/badge/NextAuth.js-000000?logo=next.js&logoColor=whitelabelColor=000000)
 ![SWR](https://img.shields.io/badge/SWR-FF6347?logo=vercel&logoColor=whitelabelColor=FF6347)
+
+
+# Database Design (ERD)
+<img src="public/Trello.png" alt="ERD">
 
 
 ## Technologies Used
@@ -18,7 +24,9 @@
 - **Data Fetching and Query**: SWR
 - **State Management**: Zustand
 - **UI Components**: Shadcn
-- **Stripe**: Payment
+- **Drag&Drop**: dnd-kit
+- **File Storage**: AWS S3
+- **Payment**: Stripe
 
 ## Environment Variables
 
@@ -32,6 +40,12 @@ GITHUB_CLIENT_ID=<your_github_client_id>
 GITHUB_CLIENT_SECRET=<your_github_client_secret>
 GOOGLE_CLIENT_ID=<your_google_client_id>
 GOOGLE_CLIENT_SECRET=<your_google_client_secret>
+
+# AWS S3
+AWS_BUCKET_REGIONN=
+AWS_ACCESS_KEY=
+AWS_SECRET_ACCESS_KEY=
+AWS_BUCKET_NAMEE=
 
 # App URLs
 NEXT_PUBLIC_APP_MAIN_URL=<your_app_main_url>
@@ -49,7 +63,7 @@ STRIPE_WEBHOOK_SECRET=<your_stripe_webhook_secret>
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/AbdelrahmanAbounida/trello-clone.git
+   git clone https://github.com/AbdelrahmanAbounida/trellofy.git
    ```
 
 2. **Install dependencies:**

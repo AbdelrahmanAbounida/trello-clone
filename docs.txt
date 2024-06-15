@@ -93,3 +93,8 @@ joyful-quaint-awards-work
 https://dashboard.stripe.com/test/settings/billing/portal
 -----------------------------------------------------------
 6- deploy 
+
+# update deployment webhook (add endpoint)
+https://dashboard.stripe.com/test/webhooks
+
+>> add vercel url 

@@ -20,7 +20,7 @@ const cardActivitiesFetcher = async ([key, taskId, columnId]: [
   return res;
 };
 
-export const usecurrentActivities = (workspaceId: string) => {
+export const useCurrentActivities = (workspaceId: string) => {
   const { data, error, isLoading } = useSWR(
     ["getAllActivities", workspaceId],
     workspaceActivitiesFetcher

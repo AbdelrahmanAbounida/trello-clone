@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { useActiveWorkspace } from "@/hooks/use-active-ws";
 import WorkshopHeader from "../../_components/workshop-header";
 import { WorkspacePageParams } from "@/schemas/workspace-schema";
-import { usecurrentActivities } from "@/hooks/use-current-activities";
+import { useCurrentActivities } from "@/hooks/use-current-activities";
 import { Activity } from "@prisma/client";
 import ProfileImageAvatar from "../../_components/profile-img-avatar";
 import { useCurrentUser } from "@/hooks/use-current-user";
@@ -19,7 +19,7 @@ const OraganizationActivity = ({ params }: WorkspacePageParams) => {
   const {
     data: activities,
     isLoading,
-  }: { data: Activity[]; isLoading: boolean } = usecurrentActivities(
+  }: { data: Activity[]; isLoading: boolean } = useCurrentActivities(
     params.workspaceId
   );
   const user = useCurrentUser();

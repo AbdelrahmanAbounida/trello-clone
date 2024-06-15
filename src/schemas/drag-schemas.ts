@@ -2,7 +2,7 @@
 // Task Card
 // ************************
 
-import { Column, Task } from "@prisma/client";
+import { Activity, Column, Task } from "@prisma/client";
 
 export interface TaskCardProps {
   task: Task;
@@ -25,10 +25,10 @@ export interface ColumnWithTasks extends Column {
 export interface TaskWithcolumn extends Task {
   column: ColumnWithTasks;
 }
-// export interface TaskWithColumnWithActivities extends Task {
-//   column: ColumnWithTasks;
-//   activities: Activity
-// }
+export interface TaskWithColumnWithActivities extends Task {
+  column: ColumnWithTasks;
+  activities: Activity[];
+}
 
 export type ColumnType = "Column";
 

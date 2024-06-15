@@ -8,8 +8,8 @@ import { create } from "zustand";
 
 type BoardStore = {
   // tasks
-  taskToBeShown: ColumnWithTasks | null;
-  setTaskTobeShow: (task: ColumnWithTasks | null) => void;
+  taskToBeShown: TaskWithcolumn | null;
+  setTaskTobeShow: (task: TaskWithcolumn | null) => void;
   setcolTasks: (newTasks: Task[], col: ColumnWithTasks) => void; // update tasks position in a col
 
   // cols

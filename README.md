@@ -13,6 +13,13 @@
 
 <img src="public/Trello.png" alt="ERD">
 
+# Screenshots 
+<img src="public/boardList.png" alt="boardList.png">
+<img src="public/activities.png" alt="activities.png">
+<img src="public/drag-Drop.png" alt="drag-Drop.png">
+
+
+
 ## Technologies Used
 
 - **Frontend Framework**: Next.js - server actions
